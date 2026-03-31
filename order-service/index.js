@@ -7,7 +7,8 @@ app.use(express.json());
 let channel;
 
 async function connectRabbitMQ() {
-  const conn = await amqp.connect("amqp://localhost");
+  const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://rabbitmq:5672'
+  const conn = await amqp.connect(RABBITMQ_URL);
   channel = await conn.createChannel();
 
   await channel.assertExchange("order_exchange", "topic", {

@@ -5,3 +5,44 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+  order-service:
+    build: ./order-service
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    restart: on-failure
+    ports:
+    - "3000:3000"
+
+  notification-service:
+    build: ./notification-service
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    restart: on-failure
+
+  logger-service:
+    build: ./logger-service
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    restart: on-failure
+
+  payment-service:
+    build: ./payment-service
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    restart: on-failure
+
+  shipping-service:
+    build: ./shipping-service
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    restart: on-failure

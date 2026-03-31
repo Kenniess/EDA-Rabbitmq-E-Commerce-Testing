@@ -1,7 +1,8 @@
 const amqp = require("amqplib");
 
 async function start() {
-  const conn = await amqp.connect("amqp://localhost");
+  const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://rabbitmq:5672'
+  const conn = await amqp.connect(RABBITMQ_URL);
   const channel = await conn.createChannel();
 
   await channel.assertExchange("order_exchange", "topic", {
